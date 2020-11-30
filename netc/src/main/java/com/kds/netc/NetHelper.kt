@@ -16,8 +16,10 @@ import com.kds.netc.ui.NetListActivity
 object NetHelper {
 
 
-
-
+    /**
+     * @param type web 还是 http
+     * @see NetType 枚举类
+     */
     fun startActivity(activity: AppCompatActivity, type: String, result: (http: String) -> Unit) {
         val intent = Intent(activity, NetListActivity::class.java)
         intent.putExtra("type", type)

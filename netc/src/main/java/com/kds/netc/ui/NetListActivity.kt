@@ -79,17 +79,12 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
                 override fun onCheckItem(position: Int, data: NetData, lastData: NetData?) {
                     http = "http://${data.url}:${data.port}/"
-//                    launch {
                     val list = mutableListOf<NetData>()
                     if (lastData != null) {
                         list.add(lastData)
                     }
                     list.add(data)
                     upDataList = list
-//                        withContext(Dispatchers.IO) {
-//                            DbUtil.getInstance(this@NetListActivity).netDao().upDateNets(list)
-//                        }
-//                    }
                 }
 
 

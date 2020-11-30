@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         val text = findViewById<TextView>(R.id.text)
         text.setOnClickListener {
             NetHelper.startActivity(this, NetType.HTTP.code) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                text.text = it
             }
         }
     }
