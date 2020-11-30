@@ -19,7 +19,7 @@ import com.kds.netc.room.NetData
  * @desc 网络切换adapter
  */
 class NetAdapter(context: Context, list: MutableList<NetData>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mContext: Context = context
     private var mNetList: MutableList<NetData> = mutableListOf()
@@ -36,19 +36,19 @@ class NetAdapter(context: Context, list: MutableList<NetData>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             1 -> {
-                val view = LayoutInflater.from(mContext).inflate(R.layout.item_empty, parent, false)
+                val view = LayoutInflater.from(mContext).inflate(R.layout.item_netkds_empty, parent, false)
                 EmptyHolder(view)
             }
 
             3 -> {
                 val view =
-                    LayoutInflater.from(mContext).inflate(R.layout.item_net_foot, parent, false)
+                        LayoutInflater.from(mContext).inflate(R.layout.item_netkds_net_foot, parent, false)
                 FootHolder(view)
             }
 
             else -> {
                 val view =
-                    LayoutInflater.from(mContext).inflate(R.layout.item_net_chenge, parent, false)
+                        LayoutInflater.from(mContext).inflate(R.layout.item_netkds_net_chenge, parent, false)
                 ViewHolder(view)
             }
 
@@ -93,7 +93,7 @@ class NetAdapter(context: Context, list: MutableList<NetData>) :
             } else {
                 checkIv.isVisible = false
             }
-            netNameTv.text = "http://${data.url}:${data.port}/"
+            netNameTv.text = if (data.description.isNullOrEmpty()) "http://${data.url}:${data.port}/" else data.description
             deleteTv.setOnClickListener {
                 listener?.deleteItem(position, data)
             }

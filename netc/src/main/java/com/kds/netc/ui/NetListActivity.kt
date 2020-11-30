@@ -2,7 +2,6 @@ package com.kds.netc.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +9,7 @@ import com.kds.netc.NetAdapter
 import com.kds.netc.R
 import com.kds.netc.room.DbUtil
 import com.kds.netc.room.NetData
-import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.activity_netkds_list.*
 import kotlinx.coroutines.*
 
 /**
@@ -27,7 +26,7 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var upDataList = mutableListOf<NetData>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        setContentView(R.layout.activity_netkds_list)
         type = intent.getStringExtra("type")
         backIv.setOnClickListener {
             finish()
@@ -38,11 +37,11 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
             launch {
 
-                  if(upDataList.isNotEmpty()){
-                      withContext(Dispatchers.IO) {
-                          DbUtil.getInstance(this@NetListActivity).netDao().upDateNets(upDataList)
-                      }
-                  }
+                if (upDataList.isNotEmpty()) {
+                    withContext(Dispatchers.IO) {
+                        DbUtil.getInstance(this@NetListActivity).netDao().upDateNets(upDataList)
+                    }
+                }
 
                 val intent = Intent()
                 intent.putExtra("http", http)
@@ -115,9 +114,12 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         if (data != null) {
             intent.putExtra("data", data)
         }
+        if (!type.isNullOrEmpty()) {
+            intent.putExtra("type", type)
+        }
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val mData =
-                it.data?.getParcelableExtra<NetData>("data") ?: return@registerForActivityResult
+                    it.data?.getParcelableExtra<NetData>("data") ?: return@registerForActivityResult
             when (it.resultCode) {
                 0x11 -> {
                     //新增

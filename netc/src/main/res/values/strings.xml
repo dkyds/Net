@@ -7,9 +7,11 @@
     <string name="net_add_data">添加</string>
     <string name="net_address">地址</string>
     <string name="net_port">端口</string>
+    <string name="net_description">描述</string>
     <string name="net_confirm">确定</string>
 
 
     <string name="hint_address">请输入访问地址</string>
     <string name="hint_port">请输入端口号</string>
+    <string name="hint_description">请输入描述</string>
 </resources>

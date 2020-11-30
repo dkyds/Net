@@ -7,12 +7,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.kds.netc.NetType
 import com.kds.netc.R
-import com.kds.netc.room.DbUtil
 import com.kds.netc.room.NetData
-import kotlinx.android.synthetic.main.activity_edit.*
+import kotlinx.android.synthetic.main.activity_netkds_edit.*
 import kotlinx.coroutines.*
 
 /**
@@ -29,11 +29,12 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit)
+        setContentView(R.layout.activity_netkds_edit)
         data = intent.getParcelableExtra("data")
+        typeStr = intent.getStringExtra("type") ?: "http"
 
         if (data == null) {
-            data = NetData(0, "", "", "", false)
+            data = NetData(0, "", "", typeStr, null, 0L, false)
         } else {
             initView(data!!)
         }
@@ -50,26 +51,33 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             data?.port = it?.toString() ?: ""
         }
 
+        descriptionEv.addTextChangedListener {
+            data?.description = if (it.isNullOrEmpty()) {
+                null
+            } else {
+                it.toString()
+            }
+        }
 
         confirmBt.setOnClickListener {
             submit()
         }
-        initSpinnerAdapter()
+
 
     }
 
 
     private fun initSpinnerAdapter() {
         val adapter =
-            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, typeList)
+                ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, typeList)
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
             ) {
                 typeStr = NetType.values()[position].code
                 data?.type = typeStr
@@ -94,7 +102,13 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 }
             }
         }
-        typeStr = data.type
+        if (typeStr.isNotEmpty()) {
+            spinner.isVisible = false
+        } else {
+            spinner.isVisible = true
+            typeStr = data.type
+            initSpinnerAdapter()
+        }
         spinner.setSelection(position)
     }
 
@@ -116,6 +130,7 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 Toast.makeText(this@NetEditActivity, "url地址未填写", Toast.LENGTH_SHORT).show()
                 return@launch
             }
+            data?.inserTime = System.currentTimeMillis()
 
 
             val resultCode = if (flag) {

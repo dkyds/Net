@@ -37,7 +37,7 @@ interface NetDao {
     /**
      * 查询数据
      */
-    @Query("select * from NetData where type =:type")
+    @Query("select * from NetData where type =:type ORDER BY inserTime DESC")
     fun getNetDataList(type: String): MutableList<NetData>
 
 
