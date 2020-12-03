@@ -1,11 +1,15 @@
 package com.kds.netc.ui
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kds.netc.NetAdapter
+import com.kds.netc.NetHelper
 import com.kds.netc.R
 import com.kds.netc.room.DbUtil
 import com.kds.netc.room.NetData
@@ -31,6 +35,8 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         backIv.setOnClickListener {
             finish()
         }
+
+//        Log.i("TAG", NetHelper.getUrl(this))
 
         rightTv.setOnClickListener {
 
@@ -77,7 +83,7 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 }
 
                 override fun onCheckItem(position: Int, data: NetData, lastData: NetData?) {
-                    http = "http://${data.url}:${data.port}/"
+                    http = "${data.httpType}${data.url}/"
                     val list = mutableListOf<NetData>()
                     if (lastData != null) {
                         list.add(lastData)
@@ -96,7 +102,10 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                         val x = withContext(Dispatchers.IO) {
                             DbUtil.getInstance(this@NetListActivity).netDao().deleteData(data)
                         }
-                        adapter?.deleteItem(data)
+
+                        showDialog(data)
+
+
                     }
                 }
 
@@ -119,7 +128,7 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val mData =
-                    it.data?.getParcelableExtra<NetData>("data") ?: return@registerForActivityResult
+                it.data?.getParcelableExtra<NetData>("data") ?: return@registerForActivityResult
             when (it.resultCode) {
                 0x11 -> {
                     //新增
@@ -141,5 +150,23 @@ class NetListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 }
             }
         }.launch(intent)
+    }
+
+
+    private fun showDialog(data: NetData) {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("提示")
+            .setMessage("是否要删除${data.description}")
+            .setPositiveButton(
+                "取消"
+            ) { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton(
+                "确定"
+            ) { dialog, _ ->
+                dialog.dismiss()
+                adapter?.deleteItem(data)
+            }
+            .create()
+        dialog.show()
     }
 }

@@ -2,6 +2,7 @@ package com.kds.netc.room
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
 
 /**
  * @author kyp
@@ -16,7 +17,9 @@ class DbUtil {
 
         fun getInstance(context: Context): NetDatabase =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: getRoom(context).also { INSTANCE = it }
+                INSTANCE ?: getRoom(context).also {
+                    INSTANCE = it
+                }
             }
 
 
@@ -25,7 +28,9 @@ class DbUtil {
                 context.applicationContext,
                 NetDatabase::class.java,
                 "netRoom"
-            ).build()
+            )
+                .addCallback(NetDatabase.Callback)
+                .build()
         }
 
     }

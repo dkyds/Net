@@ -25,79 +25,110 @@
         tools:text="http://192.168.1" />
 
 
-    <ImageView
-        android:id="@+id/checkIv"
+    <TextView
+        android:id="@+id/urlTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="10dp"
-        android:src="@mipmap/net_check"
-        app:layout_constraintTop_toTopOf="@id/netNameTv"
-        app:layout_constraintBottom_toBottomOf="@id/netNameTv"/>
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/netNameTv"
+        app:layout_constraintTop_toBottomOf="@id/netNameTv"
+        tools:text="http://192.168.1" />
 
     <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/color_333333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/netNameTv" />
-
-
-    <View
-        android:id="@+id/line2"
         android:layout_width="1dp"
-        android:layout_height="50dp"
-        android:background="@color/color_333333"
+        android:layout_height="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/urlTv" />
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/checkIv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        android:src="@mipmap/net_check"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/netNameTv"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/netNameTv"/>-->
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/checkSv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:checked="false"
+         />
+
+    <!--    <View-->
+    <!--        android:id="@+id/line"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:layout_marginTop="30dp"-->
+    <!--        android:background="@color/color_333333"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/netNameTv" />-->
 
 
-    <View
-        android:id="@+id/line3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_333333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line2" />
+    <!--    <View-->
+    <!--        android:id="@+id/line2"-->
+    <!--        android:layout_width="1dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:background="@color/color_333333"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/line" />-->
 
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_333333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/deleteTv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/delete"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/line3"
-        app:layout_constraintEnd_toEndOf="@id/line2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+    <!--    <View-->
+    <!--        android:id="@+id/line3"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/color_333333"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/line2" />-->
 
 
-    <TextView
-        android:id="@+id/modifyTv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/modify"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/line3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/line2"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/color_333333"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/deleteTv"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="@string/delete"-->
+    <!--        android:textColor="@color/color_333333"-->
+    <!--        android:textSize="16sp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/line3"-->
+    <!--        app:layout_constraintEnd_toEndOf="@id/line2"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/line" />-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/modifyTv"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="@string/modify"-->
+    <!--        android:textColor="@color/color_333333"-->
+    <!--        android:textSize="16sp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/line3"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="@id/line2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/line" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

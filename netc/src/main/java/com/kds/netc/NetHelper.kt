@@ -3,10 +3,13 @@ package com.kds.netc
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.kds.netc.room.DbUtil
 import com.kds.netc.room.NetData
 import com.kds.netc.ui.NetListActivity
+import kotlinx.coroutines.*
 
 /**
  * @author kyp
@@ -34,4 +37,19 @@ object NetHelper {
         }.launch(intent)
     }
 
+    /**
+     * 获取一选择的url
+     */
+    suspend fun getUrl(context: Context): String {
+        var data: NetData? = null
+        data = withContext(Dispatchers.IO) {
+            DbUtil.getInstance(context).netDao().getCheckData()
+        }
+
+        return if(data == null||data.url.isEmpty()){
+            ""
+        }else{
+            "${data.httpType}${data.url}/"
+        }
+    }
 }

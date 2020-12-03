@@ -12,34 +12,34 @@ import androidx.room.PrimaryKey
  */
 @Entity
 class NetData(
-        @PrimaryKey(autoGenerate = true)
-        val id: Int = 0,
-        var url: String,
-        var port: String,
-        var type: String,
-        var description: String?,
-        var inserTime: Long,
-        var isCheck: Boolean
-
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    var url: String,
+    var description: String?,
+    var inserTime: Long,
+    var isCheck: Boolean = false,
+    var type: String = "http",
+    var httpType: String = "http://"
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readInt(),
-            parcel.readString().toString(),
-            parcel.readString().toString(),
-            parcel.readString().toString(),
-            parcel.readString(),
-            parcel.readLong(),
-            parcel.readByte() != 0.toByte()) {
+        parcel.readInt(),
+        parcel.readString().toString(),
+        parcel.readString(),
+        parcel.readLong(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readString().toString(),
+        parcel.readString().toString()
+    ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(url)
-        parcel.writeString(port)
-        parcel.writeString(type)
         parcel.writeString(description)
         parcel.writeLong(inserTime)
         parcel.writeByte(if (isCheck) 1 else 0)
+        parcel.writeString(type)
+        parcel.writeString(httpType)
     }
 
     override fun describeContents(): Int {

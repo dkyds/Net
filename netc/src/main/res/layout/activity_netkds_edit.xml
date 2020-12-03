@@ -78,37 +78,7 @@
 
 
 
-    <TextView
-        android:id="@+id/portTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/net_port"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/httpEv" />
 
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/portEv"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/shape_edit"
-        android:gravity="center_vertical"
-        android:hint="@string/hint_port"
-        android:maxLines="1"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/portTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/portTitle"
-        app:layout_constraintTop_toTopOf="@id/portTitle" />
 
 
 
@@ -123,7 +93,7 @@
         android:textColor="@color/color_333333"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/portEv" />
+        app:layout_constraintTop_toBottomOf="@id/httpEv" />
 
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -171,10 +141,10 @@
         android:id="@+id/spinner"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-         app:layout_constraintTop_toBottomOf="@id/portEv"
-        app:layout_constraintEnd_toEndOf="@id/portEv"
+         app:layout_constraintTop_toBottomOf="@id/descriptionEv"
+        app:layout_constraintEnd_toEndOf="@id/descriptionEv"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         />
 
 

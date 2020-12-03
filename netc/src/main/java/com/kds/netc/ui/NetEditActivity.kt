@@ -7,7 +7,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.kds.netc.NetType
 import com.kds.netc.R
@@ -23,7 +22,7 @@ import kotlinx.coroutines.*
 class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private var typeStr: String = "http"
-    private val typeList = listOf("网络数据", "web数据")
+    private val httpList = listOf("http://", "https://")
     private var data: NetData? = null
     private var flag = false //是否是 修改
 
@@ -34,7 +33,7 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         typeStr = intent.getStringExtra("type") ?: "http"
 
         if (data == null) {
-            data = NetData(0, "", "", typeStr, null, 0L, false)
+            data = NetData(0, "", "", 0L)
         } else {
             initView(data!!)
         }
@@ -45,10 +44,6 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         httpEv.addTextChangedListener {
             data?.url = it?.toString() ?: ""
-        }
-
-        portEv.addTextChangedListener {
-            data?.port = it?.toString() ?: ""
         }
 
         descriptionEv.addTextChangedListener {
@@ -63,36 +58,34 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             submit()
         }
 
-
+        initSpinnerAdapter()
     }
 
 
     private fun initSpinnerAdapter() {
         val adapter =
-                ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, typeList)
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, httpList)
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
             ) {
-                typeStr = NetType.values()[position].code
-                data?.type = typeStr
-                Toast.makeText(this@NetEditActivity, typeStr, Toast.LENGTH_SHORT).show()
+                data?.httpType = httpList[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
 
         }
+        spinner.setSelection(0)
     }
 
     private fun initView(data: NetData) {
         flag = true
         httpEv.setText(data.url)
-        portEv.setText(data.port)
         var position = 0
         kotlin.run {
             NetType.values().forEachIndexed { index, netType ->
@@ -101,13 +94,6 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     return@run
                 }
             }
-        }
-        if (typeStr.isNotEmpty()) {
-            spinner.isVisible = false
-        } else {
-            spinner.isVisible = true
-            typeStr = data.type
-            initSpinnerAdapter()
         }
         spinner.setSelection(position)
     }
@@ -119,12 +105,6 @@ class NetEditActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 Toast.makeText(this@NetEditActivity, "数据错误", Toast.LENGTH_SHORT).show()
                 return@launch
             }
-
-            if (data!!.port.isEmpty()) {
-                Toast.makeText(this@NetEditActivity, "端口号未填写", Toast.LENGTH_SHORT).show()
-                return@launch
-            }
-
 
             if (data!!.url.isEmpty()) {
                 Toast.makeText(this@NetEditActivity, "url地址未填写", Toast.LENGTH_SHORT).show()

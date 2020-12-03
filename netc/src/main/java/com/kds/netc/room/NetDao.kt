@@ -41,6 +41,9 @@ interface NetDao {
     fun getNetDataList(type: String): MutableList<NetData>
 
 
+    @Query("select * from NetData where isCheck = 1")
+    fun getCheckData(): NetData?
+
     /**
      * 删除数据
      */

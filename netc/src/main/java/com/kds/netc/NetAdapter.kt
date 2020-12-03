@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ import com.kds.netc.room.NetData
  * @desc 网络切换adapter
  */
 class NetAdapter(context: Context, list: MutableList<NetData>) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mContext: Context = context
     private var mNetList: MutableList<NetData> = mutableListOf()
@@ -36,19 +37,22 @@ class NetAdapter(context: Context, list: MutableList<NetData>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             1 -> {
-                val view = LayoutInflater.from(mContext).inflate(R.layout.item_netkds_empty, parent, false)
+                val view =
+                    LayoutInflater.from(mContext).inflate(R.layout.item_netkds_empty, parent, false)
                 EmptyHolder(view)
             }
 
             3 -> {
                 val view =
-                        LayoutInflater.from(mContext).inflate(R.layout.item_netkds_net_foot, parent, false)
+                    LayoutInflater.from(mContext)
+                        .inflate(R.layout.item_netkds_net_foot, parent, false)
                 FootHolder(view)
             }
 
             else -> {
                 val view =
-                        LayoutInflater.from(mContext).inflate(R.layout.item_netkds_net_chenge, parent, false)
+                    LayoutInflater.from(mContext)
+                        .inflate(R.layout.item_netkds_net_chenge, parent, false)
                 ViewHolder(view)
             }
 
@@ -79,43 +83,56 @@ class NetAdapter(context: Context, list: MutableList<NetData>) :
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val netNameTv: TextView = view.findViewById(R.id.netNameTv)
-        private val deleteTv: TextView = view.findViewById(R.id.deleteTv)
-        private val modifyTv: TextView = view.findViewById(R.id.modifyTv)
+        private val urlTv: TextView = view.findViewById(R.id.urlTv)
         private val netCl: ConstraintLayout = view.findViewById(R.id.netCl)
-        private val checkIv: ImageView = view.findViewById(R.id.checkIv)
+
+        private var checkSv: SwitchCompat = view.findViewById(R.id.checkSv)
 
 
         @SuppressLint("SetTextI18n")
         fun init(position: Int, data: NetData) {
             if (data.isCheck) {
                 lastCheckData = data
-                checkIv.isVisible = true
+                checkSv.isChecked = true
             } else {
-                checkIv.isVisible = false
-            }
-            netNameTv.text = if (data.description.isNullOrEmpty()) "http://${data.url}:${data.port}/" else data.description
-            deleteTv.setOnClickListener {
-                listener?.deleteItem(position, data)
+                checkSv.isChecked = false
             }
 
-            modifyTv.setOnClickListener {
+//            checkSv.setOnCheckedChangeListener { _, isChecked ->
+//                data.isCheck = isChecked
+//                check(data)
+//            }
+            checkSv.setOnCheckedChangeListener(null)
+            checkSv.setOnClickListener {
+                check(data)
+            }
+
+
+            netNameTv.text =
+                if (data.description.isNullOrEmpty()) "${data.httpType}${data.url}/" else data.description
+
+            urlTv.text = "${data.httpType}${data.url}/"
+
+            netCl.setOnClickListener {
                 listener?.onModifyItem(adapterPosition, data)
             }
 
-            netCl.setOnClickListener {
-                check(data)
+            netCl.setOnLongClickListener {
+                listener?.deleteItem(position, data)
+                return@setOnLongClickListener true
             }
         }
 
 
         private fun check(data: NetData) {
             data.isCheck = true
+            val index = mNetList.indexOf(lastCheckData)
             if (lastCheckData != null) {
                 lastCheckData?.isCheck = false
             }
+            notifyItemChanged(index)
             listener?.onCheckItem(adapterPosition, data, lastCheckData)
             lastCheckData = data
-            notifyDataSetChanged()
         }
     }
 
